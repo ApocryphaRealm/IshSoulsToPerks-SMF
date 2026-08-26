@@ -40,14 +40,20 @@ in `PROGRESS.md`, and the ESP/BSA themselves were inspected directly:
     the MCM page entirely.
   - A second, unused activator (`ishSoulsToPerksTriggerNOTUSED`) exists in the ESP and was
     ignored - its own `EDID` says what it is.
-- A full bytecode disassembly of the `.pex` (not just its string table) was **not** attempted -
+- A full bytecode disassembly of the `.pex` (not just its string table) was **not** completed -
   the ESP's own records already gave every concrete number and identifier the mechanic needs
   (the price, the three purchase quantities, the actor value, the native call names), so a full
   disassembly would only have confirmed control flow already implied unambiguously by the data
   above (deduct souls, grant point(s), gated by affordability). Building Orvid/Champollion
-  (LGPL-3.0, `github.com/Orvid/Champollion`) from source was attempted as the more rigorous
-  route and is left in the scratchpad partially built if a future session wants to finish it and
-  cross-check this port's assumptions directly against the decompiled `.psc`.
+  (LGPL-3.0, `github.com/Orvid/Champollion` - a real, buildable CMake+vcpkg CLI Papyrus
+  decompiler, not previously in `code library`) from source was attempted as the more rigorous
+  route and was still running (stuck on vcpkg's `boost-program-options` dependency) when this
+  port was otherwise finished. It was building in this session's own temp scratchpad, which does
+  **not** persist between sessions - so if a future session wants to cross-check this port's
+  assumptions against a real decompile, it needs to re-clone and re-build
+  `github.com/Orvid/Champollion` (`cmake -S . -B build -G Ninja
+  -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake` against the BSA's
+  extracted `scripts/ishsoultoperktrigger.pex`), not look for anything left behind by this one.
 
 ## Design decisions
 
