@@ -1,0 +1,11 @@
+{
+    "name": "ishsoulstoperks",
+    "version-string": "1.0.0",
+    "description": "Ish's Souls to Perks - SMF Settings: a native SKSE plugin re-implementing 'buy a perk point with dragon souls' (inspired by Ish's Souls to Perks, Nexus 1955), with a configurable SKSE Menu Framework settings page",
+    "homepage": "https://github.com/ApocryphaRealm/IshSoulsToPerks-SMF",
+    "license": "MIT",
+    "dependencies": [
+        "commonlibsse-ng"
+    ],
+    "builtin-baseline": "8d3649ba34aab36914ddd897958599aa0a91b08e"
+}
