@@ -89,6 +89,26 @@ in `PROGRESS.md`, and the ESP/BSA themselves were inspected directly:
   no partial deduction - matching the original's own behavior of an unaffordable button simply
   not being selectable.
 
+## Known caveats for review
+
+- **`UI::RenderPurchaseSection()` reads `RE::PlayerCharacter::GetSingleton()`'s dragon-soul
+  actor value directly on the render thread**, for the live "Dragon souls: N" display and the
+  per-button affordability check - every *write* in this mod (the actual purchase) is deferred
+  to the main thread via `SKSE::GetTaskInterface()`, matching this project's established
+  pattern, but this one read is not. It is null-safe (`GetSingleton()` returns null outside a
+  running game; `Perks::GetCurrentDragonSouls()` null-checks the `ActorValueOwner` interface),
+  and a single aligned-float field read without mutation is a common, generally-accepted
+  pattern in other SKSE plugins' UI code - but none of this project's *other* SMF pages read
+  live engine state (as opposed to their own plugin-owned settings variables) directly during
+  `Render()`, so there is no established precedent here to lean on. Worth a second look, and
+  worth watching for in an in-game test.
+- **A full Champollion (Orvid/Champollion, LGPL-3.0) bytecode disassembly of the original's
+  `.pex` was not completed** - see "What was actually inspected" above for what was verified
+  instead (the BSA's string table plus every relevant ESP record) and why that was judged
+  sufficient. A partial build attempt is left in the scratchpad if a future session wants to
+  finish it and cross-check this port's control-flow assumptions (deduct-then-grant, gated by
+  affordability, no partial purchase) directly against the decompiled source.
+
 ## Licensing
 
 Clean-room reimplementation: no Papyrus code, ESP records, or BSA assets from the original mod

@@ -161,6 +161,16 @@ namespace UI
 		{
 			ImGuiMCP::SeparatorText("Buy Perk Points");
 
+			// Read-only, off the main thread (the render hook this page draws from) - unlike
+			// every write in this file, which is deferred to OnMainThread(). A single pointer
+			// chase down to one already-aligned float field is the same category of read this
+			// project's other pages already treat as safe inline (e.g. reading this plugin's
+			// own settings variables directly during Render); GetSingleton() is null-safe on
+			// its own (returns null outside a running game, e.g. the main menu) and
+			// GetCurrentDragonSouls() null-checks the ActorValueOwner interface too. Flagged
+			// explicitly here since it is this page's only *engine* (not plugin-owned) read
+			// done this way - worth a second look before this port goes further, per this
+			// mod's PORT-NOTES.md.
 			RE::PlayerCharacter* player = RE::PlayerCharacter::GetSingleton();
 			const float currentSouls = Perks::GetCurrentDragonSouls(player);
 
