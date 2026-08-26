@@ -44,6 +44,12 @@ the settings page instead, the same design choice this project already made for 
 Reallocation - SMF Settings**, which replaced a potion trigger with a settings-page button. See
 `PORT-NOTES.md` for the full reasoning.
 
+**Requirement note**: because the purchase button lives only on the SMF page, SKSE Menu
+Framework is a hard requirement for this mod's actual functionality, not merely for
+configuring it - without SMF installed (or too old a version), there is no way to buy a perk
+point at all. `PORT-NOTES.md` covers why this differs from this project's other SMF mods,
+several of which keep working headlessly without SMF and only lose their settings UI.
+
 ## Settings persistence
 
 `Restore defaults` reads only the DLL's own compiled-in value (10 dragon souls per perk point),

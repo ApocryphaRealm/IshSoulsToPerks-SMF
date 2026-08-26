@@ -75,6 +75,17 @@ in `PROGRESS.md`, and the ESP/BSA themselves were inspected directly:
   than adding a new alchemy item. This is flagged explicitly per the playbook's Case-A-style
   "no disk source" guidance (Part 1 step 3) about old in-game interaction surfaces needing an
   explicit keep-or-remove decision, not a silent one.
+  - **A real consequence of this choice, worth being explicit about**: because the purchase
+    action lives *only* on the SMF page, this mod's entire core mechanic - not just its
+    configurability - is unavailable if SMF is missing or too old. `HasRequiredExports()`
+    still degrades gracefully (no crash, a clear log line, the INI is still read), but unlike
+    a mod whose underlying feature keeps working headlessly and only loses its *settings UI*
+    without SMF (e.g. Carry Weight Per Level's level-up bonus, which applies regardless of
+    whether its page ever registers), there is no equivalent fallback here - correctly so,
+    since the original mod's own purchase trigger (activating the Dragonstone) has no INI/
+    console equivalent either, so there was nothing headless to preserve. Worth noting on the
+    Nexus page's requirements section once this mod is finalized, so SMF reads as a hard
+    requirement, not merely recommended.
 - **No keybind was added** (`CLAUDE.md` rule 28 only applies to a mod with a bindable in-game
   action). There is nothing to bind here - opening the settings page uses SMF's own menu key,
   and the purchase itself is a button on that page, the same reasoning already applied to
