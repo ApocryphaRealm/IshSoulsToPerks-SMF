@@ -37,11 +37,15 @@ namespace settings
 
 	namespace perks
 	{
-		// The mod's one real setting, mirrored 1:1 from the original's own MCM/console-only
-		// value: dragon souls required per perk point. The original's GlobalVariable
-		// "ishPerkCost" defaulted to 10.0 and was only changeable via
+		// The mod's one real setting: dragon souls required per perk point. The original's
+		// GlobalVariable "ishPerkCost" defaulted to 10.0 and was only changeable via
 		// "set ishperkcost to X" in the console (or its own MCM page, if that half of the
-		// original still worked) - here it is a real slider, same default, same meaning.
-		inline float dragonSoulsPerPerkPoint = 10.0F;
+		// original still worked) - here it is a real slider.
+		//
+		// DEFAULT 1, the author's call 2026-08-27: *"I want the mod's default to be 1 not 10."*
+		// This DIVERGES from the original's 10 deliberately, so it is not a porting mistake and
+		// should not be "corrected" back by a later session. Anyone who wants the original's
+		// economy sets the slider to 10.
+		inline float dragonSoulsPerPerkPoint = 1.0F;
 	}
 }

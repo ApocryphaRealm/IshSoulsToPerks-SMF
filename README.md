@@ -91,5 +91,5 @@ other originally-authored material.
 **First attempt, not yet tested in game.** Built and reviewed for correctness against the
 vendored CommonLibSSE-NG headers and the real values pulled directly from the original archive
 (see `PORT-NOTES.md`), but buying a perk point has not been exercised on a running save yet.
-Not packaged into `current test builds`, not finalized, not tagged - per this task's explicit
+Not packaged into `7. current test builds`, not finalized, not tagged - per this task's explicit
 scope, that is the author's call once he has reviewed it.

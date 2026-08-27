@@ -1,6 +1,6 @@
 # Port notes - Ish's Souls to Perks -> SMF Settings
 
-Source: `current project mod\Ish's Souls to Perks-1955-1-2.zip` (Nexus Skyrim Special Edition
+Source: `5. current project mod\Ish's Souls to Perks-1955-1-2.zip` (Nexus Skyrim Special Edition
 mod 1955, "Ish's Souls to Perks" by ishmaeltheforsaken, version 1.2SE). Closed-source ESP+BSA,
 no public repository, no Papyrus source shipped in the archive.
 
@@ -133,3 +133,94 @@ are reused anywhere in this repo - only the general mechanic ("spend dragon soul
 perk point"), which is a game mechanic and not copyrightable, the same reasoning already applied
 to this project's other from-scratch mods (Carry Weight Per Level, Perk Reallocation). New code
 here is MIT-licensed, matching those two siblings.
+
+---
+
+## 2026-08-26 — Re-examined: do SkyPatcher and Base Object Swapper remove the ESP need here?
+
+Asked directly by the author after both tools were adopted into rule 1's parallel set. **Answer: no,
+not for this mod's specific gap — but the ESP is still avoidable, by a different route than
+either of them.**
+
+### Why neither new tool applies
+
+The thing this port dropped is the **"Dragonstone" `ACTI` placed at the Guardian Stones**. That
+is *adding a new reference to the world*, and it is the one thing both new tools explicitly
+cannot do:
+
+- **Base Object Swapper swaps what is already there.** Its own documentation, quoted in
+  `CodeLibrary.md`: it covers *"replace this with that"*, not *"put something new here."* There
+  is no vanilla reference at that site that is a plausible stand-in to swap, and swapping some
+  arbitrary nearby object into an activator would be a contrivance that breaks whatever it
+  replaced.
+- **SkyPatcher edits values on records.** It can change what a form *is like*; it cannot create a
+  placement. It could add a keyword to the existing Guardian Stones, which matters below, but it
+  cannot put a new object beside them.
+
+So this is precisely the narrow case rule 1 still reserves an ESP for: *"adding a genuinely new
+reference that none of the three can express."* The tools did not make that case disappear —
+they made it **rarer**, which is a different and still valuable thing.
+
+### But the ESP is optional, because the mod already works without it
+
+The shipped 1.0.0 build exposes the purchase as **buttons on the SMF settings page**, mirroring
+the original's 1/5/10 quantities with live affordability. The mechanic is complete. The world
+object is *flavour and discoverability*, not function — so the real question is not "how do we
+restore the object" but "is the object worth an ESP."
+
+### The three honest routes, cheapest first
+
+1. **Do nothing.** Keep the settings-page buttons. Costs a little immersion and the "stumble
+   across it at the Guardian Stones" discovery moment; costs no plugin, no save-baked reference,
+   no load-order position to defend. This is what already ships.
+2. **Hook the EXISTING Guardian Stones.** Our own plugin sinks activation events and opens the
+   purchase prompt when the player activates a Guardian Stone. **No new reference, no ESP, no
+   BOS** — pure route 1, the top of the ladder. It restores the location association almost
+   exactly, since the original's stone sat at that same site. **The caveat is real and should be
+   settled before building it:** the Guardian Stones already do something on activation (granting
+   their blessing), so this either has to present both choices or find a non-conflicting gesture.
+   That is a design decision, not a technical blocker. SkyPatcher becomes genuinely useful here
+   as the *data-driven* half — mark which references trigger the menu with a keyword, so the
+   trigger set is configurable rather than a hardcoded FormID list.
+3. **A tiny ESL-flagged plugin carrying only the placement.** All behaviour stays in the DLL; the
+   plugin holds nothing but the activator record and its reference. This is the original's own
+   design and is what category 6 doctrine prescribes for a world reference. It is the last
+   resort, and it is legitimately available — but it should be chosen deliberately, and only if
+   route 2's activation-conflict question turns out badly.
+
+### Recommendation
+
+**Route 2, with route 1 as the fallback.** It restores what was actually lost — the association
+with the Guardian Stones — without an ESP, without a save-baked reference, and without either new
+tool being stretched past what it does. Route 3 stays on the table but should not be reached for
+first now that a runtime path exists.
+
+**This does not block the current test run.** The 1.0.0 build is functionally complete and should
+be tested as-is; this is a follow-up enhancement, not a defect.
+
+### DECIDED 2026-08-26: route 3 - a small ESL
+
+the author: *"let's go with option three and use a small ESL."*
+
+So the Dragonstone placement comes back, carried by a **minimal ESL-flagged plugin that holds
+nothing but the activator record and its placed reference at the Guardian Stones**. All behaviour
+stays in the DLL - the plugin is a placement carrier, not a script host. This is the original
+mod's own design and is what category 6 doctrine prescribes for a world reference, and it is the
+narrow case rule 1 still reserves an ESP for: adding a genuinely new reference that neither the
+runtime plugin, Base Object Swapper nor SkyPatcher can express.
+
+**Consequences to honour when building it:**
+
+- **ESL-flagged**, so it costs no full plugin slot.
+- **The plugin becomes a hard requirement** and ships with the mod - a category 6 mod's world
+  reference is never separated from its plugin.
+- **The SMF page buttons stay.** They are the mod's accessibility path and already work; the
+  Dragonstone is an additional trigger, not a replacement. Losing SMF should not lose the mechanic.
+- **The reference will bake into saves.** Once placed, its FormID persists in any save made with
+  the plugin active, so the plugin must not be casually renamed or removed later.
+- Build it with the Creation Kit (CKPE is installed on the SME instance) or an equivalent plugin
+  authoring route, and verify the result with `.MD\scripts\Get-PluginRecordTypes.ps1` - it should
+  report `CELL`/`WRLD`/`REFR` and nothing surprising.
+
+**Not part of the current test run.** The shipped 1.0.0 is functionally complete via the settings
+page and is what is being tested now; the ESL is the next version's work.

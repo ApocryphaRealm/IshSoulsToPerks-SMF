@@ -1,4 +1,5 @@
 #include "Diagnostics.h"
+#include "Dragonstone.h"
 #include "Settings.h"
 #include "UI.h"
 #include "utils/Logger.h"
@@ -34,10 +35,12 @@ void SKSEMessageListener(SKSE::MessagingInterface::Message* a_msg)
 		break;
 
 	case SKSE::MessagingInterface::kDataLoaded:
-		// This mod has no world/quest hooks to install (see Perks.h's header comment - the
-		// original's in-world "Dragonstone" activation is replaced by the settings page's own
-		// buttons), so there is nothing else to do here beyond the last diagnostics retry.
-		logger::debug("kDataLoaded received");
+		// kDataLoaded is the first point the load order is available, so it is the earliest the
+		// Dragonstone activator can be looked up out of IshSoulsToPerks.esl. The plugin is
+		// optional - if it is absent this resolves to nothing, logs the fact once, and the
+		// settings page's purchase buttons carry the mod on their own exactly as in 1.0.0.
+		logger::debug("kDataLoaded received; resolving the in-world Dragonstone activator");
+		Dragonstone::Init(/* a_lastAttempt = */ true);
 
 		// Last retry point - if DevBench still isn't found here, conclude it isn't installed
 		// and say so, rather than staying silent about it forever.
