@@ -42,7 +42,7 @@ namespace settings
 		// "set ishperkcost to X" in the console (or its own MCM page, if that half of the
 		// original still worked) - here it is a real slider.
 		//
-		// DEFAULT 1, the author's call 2026-08-27: *"I want the mod's default to be 1 not 10."*
+		// DEFAULT 1, design call 2026-08-27: *"I want the mod's default to be 1 not 10."*
 		// This DIVERGES from the original's 10 deliberately, so it is not a porting mistake and
 		// should not be "corrected" back by a later session. Anyone who wants the original's
 		// economy sets the slider to 10.
