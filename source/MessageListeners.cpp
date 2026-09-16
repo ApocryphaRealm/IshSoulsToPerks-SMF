@@ -36,7 +36,7 @@ void SKSEMessageListener(SKSE::MessagingInterface::Message* a_msg)
 
 	case SKSE::MessagingInterface::kDataLoaded:
 		// kDataLoaded is the first point the load order is available, so it is the earliest the
-		// Dragonstone activator can be looked up out of IshSoulsToPerks.esl. The plugin is
+		// Dragonstone activator can be looked up out of IshSoulsToPerks.esp. The plugin is
 		// optional - if it is absent this resolves to nothing, logs the fact once, and the
 		// settings page's purchase buttons carry the mod on their own exactly as in 1.0.0.
 		logger::debug("kDataLoaded received; resolving the in-world Dragonstone activator");

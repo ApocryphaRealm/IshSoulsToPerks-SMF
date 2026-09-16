@@ -14,7 +14,7 @@ namespace Dragonstone
 		// The contract with the plugin. Both halves are fixed: the ESL declares the activator at
 		// this local FormID, and this lookup finds it by plugin filename, so neither may drift
 		// without the other. See Dragonstone.h.
-		constexpr const char* kPluginFileName = "IshSoulsToPerks.esl";
+		constexpr const char* kPluginFileName = "IshSoulsToPerks.esp";
 		constexpr RE::FormID kActivatorLocalFormID = 0x800;
 
 		// Resolved once, at kDataLoaded, and then never re-looked-up. Null means "the plugin is

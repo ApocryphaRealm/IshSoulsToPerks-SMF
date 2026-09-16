@@ -1,4 +1,4 @@
-# Plugin notes - `IshSoulsToPerks.esl`
+# Plugin notes - `IshSoulsToPerks.esp`
 
 The placement carrier for **Ish's Souls to Perks - SMF Settings**. It holds the Dragonstone
 activator and its placed reference at the Guardian Stones, and **nothing else**. All behaviour
@@ -106,7 +106,7 @@ match its header count of 24). `nextObjectID` = `0x802`.
 | `0x01000800` | `0xFE0xx800` | `ACTI` | `ISTP_DragonstoneActivator` |
 | `0x01000801` | `0xFE0xx801` | `REFR` | `ISTP_DragonstoneRef` |
 
-The DLL resolves these as `LookupForm(0x800, "IshSoulsToPerks.esl")`. **These must never drift.**
+The DLL resolves these as `LookupForm(0x800, "IshSoulsToPerks.esp")`. **These must never drift.**
 Light-plugin local FormIDs must sit in `0x800`–`0xFFF`, which is why those two were chosen.
 
 On disk the high byte is the *master index*, and index 1 means "this file" (there is 1 master).
@@ -236,15 +236,15 @@ What Mutagen independently reported:
 
 - Mod header flags **`Master` + `Small`** — i.e. it agrees the file is ESM-flagged and light
 - `MasterReferences:` a single entry, `Skyrim.esm`
-- Activator `000800:IshSoulsToPerks.esl`, EditorID `ISTP_DragonstoneActivator`, Name
+- Activator `000800:IshSoulsToPerks.esp`, EditorID `ISTP_DragonstoneActivator`, Name
   `Dragonstone`, model `Clutter\Ruins\DragonStone\RuinsDragonStone01.nif`
 - Cell resolved as **`009B91:Skyrim.esm`** — correctly understood as an override of a master's
   record rather than new content — with `Grid Point: 0, -15`, `WaterHeight: 600`, and its Regions
   and Location resolving into `Skyrim.esm`
 - Worldspace resolved as `Tamriel - 00003C_Skyrim.esm`, filed under block `0, -1` / sub-block `0, -2`
 - The reference listed under the cell's **`Temporary:`** collection (not `Persistent:`), as
-  `PlacedObject 000801:IshSoulsToPerks.esl`, EditorID `ISTP_DragonstoneRef`,
-  `Base: 000800:IshSoulsToPerks.esl`, `Scale: 0.7`,
+  `PlacedObject 000801:IshSoulsToPerks.esp`, EditorID `ISTP_DragonstoneRef`,
+  `Base: 000800:IshSoulsToPerks.esp`, `Scale: 0.7`,
   `Position: 2428.6306, -59305.633, 1432.5502`, `Rotation: 0, 0, 1.3831997`
 
 ### Not verified
